@@ -72,7 +72,7 @@ router.get('/Searching_dogs', async(req, res)=>{
 router.get('/temperaments', async(req, res) => {
     const temperApi = await axios.get('https://api.thedogapi.com/v1/breeds?api_key={YOUR_API_KEY}')
     const temperaments = temperApi.data.map((c) => c.temperament)
-    const tempEach = temperaments.join().split(", ")
+    const tempEach = temperaments.join().split(",")
     const arrayFiltrado = [...new Set(tempEach)];
     //const arrayFiltrado = tempEach.filter((el, pos)=> tempEach.indexOf(el) === pos)
        

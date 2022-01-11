@@ -1,0 +1,11 @@
+.Home{
+    position: fixed; 
+    top: 50px; 
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-image: url(../image/1.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

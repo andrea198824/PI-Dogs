@@ -1,7 +1,7 @@
-
+import './Home.css'
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from ' react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { getDogs } from '../actions';
 import { Link } from 'react-router-dom';
 import Card from './Card';
@@ -20,7 +20,7 @@ export default function Home(){
     }
 
     return (
-        <div>
+        <div className="Home">
             <Link to='/dog'>Añadir raza</Link>
             <h1>xxx</h1>
             <button onClick ={e=> {handleClick(e)}}>

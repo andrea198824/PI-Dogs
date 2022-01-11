@@ -1,7 +1,7 @@
 const initialState ={
     dogs :[]
 }
- function rootReducer(state = initialState, action){
+ export function rootReducer(state = initialState, action){
     switch(action.type) {
         case 'GET_DOGS':
             return {
