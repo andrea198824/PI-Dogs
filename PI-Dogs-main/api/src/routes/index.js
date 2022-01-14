@@ -20,14 +20,14 @@ const getApiInfo = async()=>{
             id: c.id,
             name: c.name,
             image: c.image.url,
-            height: c.hight,
-            weight: c.weight,
+            height: c.height.metric,
+            weight: c.weight.metric,
             temperament: c.temperament
         };
     });
     return apiInfo;
 };
-console.log(getApiInfo())
+console.log(getApiInfo)
 
 const getDbInfo = async() =>{
     return await Dog.findAll({
@@ -59,7 +59,7 @@ router.get("/dogs", function (req, res) {
     })
 
 
-router.get('/Searching_dogs', async(req, res)=>{
+router.get('/searching_dogs', async(req, res)=>{
     const name = req.query.name
     let dogsTotal = await getAllDogs();
     if(name){

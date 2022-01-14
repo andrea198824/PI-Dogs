@@ -1,0 +1,43 @@
+41 lines (36 sloc)  703 Bytes
+   
+.card-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 300px;
+    width: 200px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.titulo-dog-container {
+    flex-direction: column;
+    width: 200px;
+    display: flex;
+}
+
+.titulo-card {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 19px;
+    margin: 0;
+    padding-top: 10px;
+    color: black
+}
+
+.temperamento-card {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 13px;
+    color: rgb(92, 92, 92)
+}
+
+.imagen {
+    height: 145px;
+    width: 180px;
+    border-radius: 4px;
+    margin: 9px;
+    padding-top: 3px;
+}
+
+a:link, a:visited, a:active {
+    text-decoration:none;
+}
