@@ -1,12 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux"; 
-import { filterDogs  } from "../../redux/actions";
+import { useDispatch, useSelector } from 'react-redux';
+import { filterDogs  } from "../actions";
 
 
 
 export default function FilterTemps() {
     const dispatch = useDispatch()
-    const temperaments = useSelector((state)=> state.countries)
+    const temperaments = useSelector((state)=> state.temperament)
    
     
  
@@ -19,7 +19,7 @@ export default function FilterTemps() {
     return(
         <div>
             <select  onChange={handleFilterTemps}>
-                <option>seleccionar pais</option>
+                <option>Seleccionar Temperamento</option>
                {temperaments.map((el)=> 
                 <option value ={el.name} >{el.name}</option>
                 ) }

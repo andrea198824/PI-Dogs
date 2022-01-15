@@ -1,5 +1,5 @@
 import React from 'react';
-import { filterDogsByRaza } from '../actions'
+import { filterDogs } from '../actions'
 import { useDispatch, useSelector } from 'react-redux';
 
 function Raza() {
@@ -9,13 +9,13 @@ function Raza() {
    
     const dogsChange = (e) => {
         e.preventDefault();
-        dispatch(filterDogsByRaza(e.target.value))
+        dispatch(filterDogs(e.target.value))
     }
     return (
-        <select onChange={e => dogsChange()} >
-            <option value={''} >Seleccionar raza</option>
+        <select onChange={e => dogsChange(e)} >
+            <option>Seleccionar raza</option>
             {dogis.map((el) => (
-                <option value={el.name} key = {el.name}>{el.name}</option>
+                <option value={el.name}>{el.name}</option>
             ))}
         </select>
     )

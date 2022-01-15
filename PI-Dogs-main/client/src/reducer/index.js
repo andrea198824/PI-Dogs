@@ -1,11 +1,16 @@
-import { FILTER_TEMPERAMENT,FILTER_RAZA, GET_TEMPERAMENT} from '../actions/index';
+
+import { FILTER_TEMPERAMENT,
+    FILTER_RACE, 
+    FILTER_CREATED} from '../actions/index';
 
 
 const initialState = {
     dogs: [],
     allDogs: [],
     filterTemperaments: [],
-    allTemperaments: []
+    allTemperaments: [],
+    detail: [],
+    
 }
 export function rootReducer(state = initialState, action) {
     switch (action.type) {
@@ -13,17 +18,12 @@ export function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 dogs: action.payload,
-                allDogs: action.payload
+                allDogs: action.payload,
+                detail: action.payload
             }
-        case GET_TEMPERAMENT:
-            return {
-                ...state,
-                temperaments: action.payload
-            }
-
-        case FILTER_RAZA:
+        case FILTER_RACE:
             const allDogs = state.allDogs
-            //const statusFilter = action.payload === ? allDogs : allDogs.filter(c => c.state === action.payload)
+            //const statusFilter = action.payload === 'Name' ? allDogs : allDogs.filter(c => c.state === action.payload)
             const statusFilter = allDogs.filter(c => c.state === action.payload)
             return {
                 ...state,
@@ -37,6 +37,15 @@ export function rootReducer(state = initialState, action) {
                 ...state,
                 temperaments: statusTemp
             }
+
+            case FILTER_CREATED:
+                const allDogis = state.allDogs
+                //const statusTemp = action.payload === 'All' ? allTemperaments : allTemperaments.filter(c => c.state === action.payload)
+                const createdFilter = action.payload === 'created' ? allDogis.filter(c => c.createdInDb) : allDogis.filter(c => !c.createdInDb)
+                return {
+                    ...state,
+                    dogs: action.payload === 'All' ? state.allDogs : createdFilter
+                }
 
         default:
             return state;

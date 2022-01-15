@@ -2,12 +2,13 @@ import './Home.css'
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDogs } from '../actions';
+import { getDogs, filterCreated } from '../actions';
 import { Link } from 'react-router-dom';
 import Card from './Card';
 import Paginado from './Paginado';
 import Raza from './FiltroRaza';
 import ReLoad from './Load';
+import FilterTemps from './FiltroTemp'
 
 
 
@@ -37,6 +38,10 @@ export default function Home() {
         dispatch(getDogs());
     }
 
+    function handleFilterDogs(e) {
+        dispatch(filterCreated(e.target.value));
+    }
+
     return (
         <div className='Home'>
             <Link to='/dog'>Añadir raza</Link>
@@ -49,11 +54,12 @@ export default function Home() {
                     <option value='asc'>Ascendente</option>
                     <option value='desc'>Descendente</option>
                 </select>
-                <select>
+                <select onChange={e => handleFilterDogs(e)}>
                     <option value='All'>Todos</option>
                     <option value='created'>Creados</option>
-                    <option value='api'>Existente</option>
+                    <option value='api'>Existentes</option>
                 </select>
+
                 
                 <Raza/>
                 <Paginado
@@ -61,7 +67,7 @@ export default function Home() {
                     allDogs={allDogs.length}
                     paginado={paginado}
                 />
-                <ReLoad/>
+                
                 {currentDogs.map((c) => {
                     return (
                         <React.Fragment>
