@@ -1,182 +1,150 @@
-const { Router } = require('express');
-const axios = require('axios');
-const { Dog, Temperament } = require('../db');
-
+const { Router } = require("express");
+const axios = require("axios");
+const { Dog, Temperament } = require("../db.js");
+const router = Router();
+require("dotenv").config();
+const { API_KEY } = process.env;
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
-
-const router = Router();
-
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-
 const getApiInfo = async () => {
-    const apiUrl = await axios.get('https://api.thedogapi.com/v1/breeds?api_key={YOUR_API_KEY}')
-    const apiInfo = await apiUrl.data.map(c => {
-        return {
-            id: c.id,
-            name: c.name,
-            image: c.image.url,
-            height: c.height.metric,
-            weight: c.weight.metric,
-        };
-    });
-    return apiInfo;
+  const dogApi = await axios.get(
+    `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
+  );
+  let apiInfo = await dogApi.data.map((dog) => {
+    //.data porque viene de axios - saco los valores que no quiero enviar
+    return {
+      id: dog.id,
+      name: dog.name,
+      height: dog.height.metric, //en sistema métrico (tambien viene imperial)
+      weight: dog.weight.metric,
+      life_span: dog.life_span,
+      image: dog.image.url,
+      temperament: dog.temperament,
+    };
+  });
+  return apiInfo;
 };
-console.log(getApiInfo)
 
 const getDbInfo = async () => {
-    return await Dog.findAll({
-        include: {
-            model: Temperament,
-            attributes: ['name'],
-            through: {
-                attributes: [],
-            }
-        }
-    });
+  return await Dog.findAll({
+    //me traigo la info de la base de datos del modelo Dog que incluye el
+    // mod Temperament
+    include: {
+      //porque si no lo incluyo al crear un dog nunca me va a traer el
+      // dog con el temperamento
+      model: Temperament,
+      attributes: ["name"],
+      through: {
+        attributes: [],
+      },
+    },
+  });
 };
 
 const getAllDogs = async () => {
-    const apiInfo = await getApiInfo();
-    const dbInfo = await getDbInfo();
-    const infoTotal = apiInfo.concat(dbInfo);
-    return infoTotal;
-}
+  const apiInfo = await getApiInfo();
+  const dbInfo = await getDbInfo();
+  const totalInfo = apiInfo.concat(dbInfo);
+  return totalInfo;
+};
 
-router.get("/dogs", function (req, res) {
-    axios.get("https://api.thedogapi.com/v1/breeds")
-        .then(resp => {
-            res.send(resp.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-})
+//hago los get que me pide el readme que son 4
+//get dogs y get dogs búsqueda por name los hago en la misma ruta porque
+// me trae la misma info (según se ingresa un name o no)
+//el query se pasa por URL
 
-
-router.get('/searching_dogs', async (req, res) => {
-    const name = req.query.name
-    let dogsTotal = await getAllDogs();
+router.get("/dogs", async (req, res, next) => {
+  try {
+    const name = req.query.name;
+    let dogsTotal = await getAllDogs(); //me traigo todos, Db y api
     if (name) {
-        let dogName = await dogsTotal.filter(c => c.name.toLowerCase().includes(name.toLowerCase()))
-        dogName.length ? res.status(200).send(dogName) : res.status(400).send('No existe la raza');
+      // si hay un nombre por query
+      let dogName = await dogsTotal.filter((dog) =>
+        dog.name.toLowerCase().includes(name.toLowerCase())
+      );
+      dogName.length //si hay algún nombre
+        ? res.status(200).send(dogName)
+        : res
+            .status(404)
+            .send({ info: "Sorry, the dog you are looking for is not here." });
     } else {
-        res.status(200).send(dogsTotal)
+      res.status(200).send(dogsTotal); //el otro caso es que no haya un
+      //query y manda un status 200 con todos los dogs
     }
-})
-router.get('/temperaments', async (req, res) => {
-    const temperApi = await axios.get('https://api.thedogapi.com/v1/breeds?api_key={YOUR_API_KEY}')
-    const temperaments = temperApi.data.map((c) => c.temperament)
-    const tempEach = temperaments.join().split(",")
-    const arrayFiltrado = [...new Set(tempEach)];
-    //const arrayFiltrado = tempEach.filter((el, pos)=> tempEach.indexOf(el) === pos)
-
-    console.log(arrayFiltrado)
-    arrayFiltrado.forEach(c => {
-        Temperament.findOrCreate({
-            where: { name: c }
-        })
-    })
-    const allTemperaments = await Temperament.findAll();
-    res.send(allTemperaments);
-})
-router.get('/dogs/:id', async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        let dogsTotal = await getAllDogs.findByPk(id, {
-            include: [
-                {
-                    model: Dog,
-                    attribute: ["name", "weight", "height", "age"],
-                    through: {
-                        attributes: [],
-                    },
-                },
-            ],
-        });
-        res.status(200).send(dogsTotal);
-    } catch (error) {
-        res.json({ error: "id no válido" });
-    }
-});
-// router.get('/dogs/:id', async(req,res) =>{
-//     const id = req.params.id;
-
-//     const dogsTotal = await getAllDogs()
-//     if(id){
-//         let dogId = dogsTotal.filter(c => c.id == id)
-//         console.log(dogId)
-//         dogId.length? 
-//         res.status(200).json(dogId) : 
-//         res.status(404).send('No existe esa raza')
-//     }
-
-// })
-
-
-router.post('/dog', async (req, res, next) => {
-    let { name,  height, weight, temperament, createdInDb } = req.body
-    try {
-        const [newDogs, dogCreated] = await Dog.create({
-            where: {
-                name,
-                height,
-                weight,
-                createdInDb
-            },
-        });
-        console.log(dogCreated)
-        if (temperament) {
-            let temperamentDb = await Temperament.findAll({ where: { name: temperament } })
-            await newDogs.addTemperament(temperamentDb);
-        }
-
-        res
-            .status(200)
-            .send(`La raza ${name} ha sido creada`);
-    } catch (error) {
-        next(error);
-    }
-
-    //dogCreated.addTemperament(temperamentDb)
-    //res.send('Perrito creado :)')
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.put("/dogs/:id", async (req, res, next) => {
-    const id = req.params.id;
-    const temperamento = req.body; //lo q me pasan por body de las propiedades activities
-    try {
-        let act = await Dog.update(temperamento, {
-            where: {
-                id: id,
-            },
-        });
-        return res.json({ modificado: true });
-    } catch (error) {
-        next(error);
-    }
-
-    router.delete("/dogs/:id", async (req, res, next) => {
-        const id = req.params.id;
-        try {
-            let act = await Dog.destroy({
-                where: {
-                    id: id,
-                },
-            });
-            return res.json({ eliminado: true });
-        } catch (error) {
-            next(error);
-        }
+router.get("/temperament", async (req, res) => {
+  const temperamentApi = (
+    await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
+  ).data;
+  let temperaments = temperamentApi.map((ob) => ob.temperament);
+  temperaments = temperaments.join().split(",");
+  temperaments = temperaments.filter((ob) => ob);
+  temperaments = [...new Set(temperaments)].sort(); //con el constructor Set creo un objeto Set
+  // donde guardo los valores
+  //al pasarle el array temperaments todos sus elementos son agregados
+  //al nuevo Set y sort los ordena
+  temperaments.forEach((ob) => {
+    //para cada uno de ellos entrá al modelo Temperament y hacé un findOrCreate
+    Temperament.findOrCreate({
+      // es un método de sequelize usado para chequear si un elemento ya existe en la Db, y si
+      //no existe, lo va a crear.
+      where: { name: ob }, //creáme estos temperamentos donde el nombre sea este elemento que
+      // estoy mapeando
     });
+  });
+  const allTemperaments = await Temperament.findAll();
+  res.send(allTemperaments);
 });
 
+router.get("/dogs/:id", async function (req, res, next) {
+  try {
+    const id = req.params.id;
+    const dogTotal = await getAllDogs();
+    if (id) {
+      let dogId = await dogTotal.filter((el) => el.id == id); //dentro de todos los dogs
+      //filtra el id que te estoy pasando
+      dogId.length //si no encuentra nada entra en la res.status
+        ? res.status(200).send(dogId)
+        : res.status(404).send({ info: "Dog not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
-
+router.post("/dog", async (req, res, next) => {
+  try {
+    const { name, height, weight, life_span, image, createdInDb, temperament } =
+      req.body; //me traigo del body todo lo que necesito
+    const newDog = await Dog.create({
+      //creo el dog con el modelo Dog y le paso lo mismo excepto el temp porque lo tengo
+      //que encontrar en un modelo que ya tengo
+      name,
+      height,
+      weight,
+      life_span,
+      image,
+      createdInDb,
+    });
+    let temperamentDb = await Temperament.findAll({
+      //dentro de mi modelo encontrá todos los temps que coincidan con lo que le paso por body
+      where: { name: temperament }, //name es igual al temperament que le llega por body
+    });
+    await newDog.addTemperament(temperamentDb); //al dog creado agregále el temperamento
+    //encontrado en la Bd que le llegó por body
+    res.status(201).send({ info: "Dog created successfully!" });
+  } catch (error) {
+    next(error); // si hay un error, lo pasa a la función next.
+  }
+});
 
 module.exports = router;

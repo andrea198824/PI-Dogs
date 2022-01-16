@@ -3,7 +3,7 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import Home from './components/Home';
-
+import CardDetails from './components/CardDetails';
 
 function App() {
   return (
@@ -16,6 +16,11 @@ function App() {
     <div >
       <Routes>
       <Route  path='/home' element = {<Home/>}/>
+      </Routes>
+    </div>
+    <div >
+      <Routes>
+      <Route  path='/home/:id' element = {<CardDetails/>}/>
       </Routes>
     </div>
     </BrowserRouter>
