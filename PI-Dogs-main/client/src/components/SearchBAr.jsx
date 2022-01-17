@@ -6,7 +6,7 @@ import { getDogsByName } from "../actions";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
-  const [name, setName] = useState(""); //lo que está tipeando el usuario va a ser mi estado local name
+  const [name, setName] = useState(''); //lo que está tipeando el usuario va a ser mi estado local name
 
   function handleInput(e) {
     e.preventDefault();
@@ -17,26 +17,24 @@ export default function SearchBar() {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(getDogsByName(name)); //acá lo que tipea el usuario le llega desde el estado local a la función que llama al back con ese name
-    setName(""); //para que cuando ya se hizo la busqueda no me siga mostrando el nombre ingresado, seteo el nombre en comillas
+    setName(''); //para que cuando ya se hizo la busqueda no me siga mostrando el nombre ingresado, seteo el nombre en comillas
   }
 
   return (
     <div /* className={styles.SearchBar} */>
+      <form handleSubmit = {handleSubmit}>
+      <input
+        type='text'
+        onChange={handleInput}
+        value={name}
+        placeholder='Buscar...'
+        />
       <input
         
-        type='text'
-        value={name}
-        placeholder='Look for a breed dog...'
-        onChange={(e) => handleInput(e)}
-      />
-      <button
-        
         type='submit'
-        onClick={(e) => handleSubmit(e)}
-      >
-        {" "}
-        Search
-      </button>
+        value="Buscar"
+      />
+      </form>
     </div>
   );
 }

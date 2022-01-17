@@ -80,25 +80,20 @@ router.get("/dogs", async (req, res, next) => {
     next(error);
   }
 });
-
 router.get("/temperament", async (req, res) => {
-  const temperamentApi = (
-    await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
-  ).data;
-  let temperaments = temperamentApi.map((ob) => ob.temperament);
+  const temperamentApi = await axios.get(
+    `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
+  );
+  let temperaments = temperamentApi.data.map((ob) => ob.temperament);
   temperaments = temperaments.join().split(",");
   temperaments = temperaments.filter((ob) => ob);
-  temperaments = [...new Set(temperaments)].sort(); //con el constructor Set creo un objeto Set
-  // donde guardo los valores
-  //al pasarle el array temperaments todos sus elementos son agregados
-  //al nuevo Set y sort los ordena
+  temperaments = [...new Set(temperaments)].sort(); //con el constructor Set creo un objeto Set donde guardo los valores
+  console.log(temperaments); //al pasarle el array temperaments todos sus elementos son agregados al nuevo Set y sort los ordena
   temperaments.forEach((ob) => {
     //para cada uno de ellos entrá al modelo Temperament y hacé un findOrCreate
     Temperament.findOrCreate({
-      // es un método de sequelize usado para chequear si un elemento ya existe en la Db, y si
-      //no existe, lo va a crear.
-      where: { name: ob }, //creáme estos temperamentos donde el nombre sea este elemento que
-      // estoy mapeando
+      // es un método de sequelize usado para chequear si un elemento ya existe en la Db, y si no existe, lo va a crear.
+      where: { name: ob }, //creáme estos temperamentos donde el nombre sea este elemento que estoy mapeando
     });
   });
   const allTemperaments = await Temperament.findAll();

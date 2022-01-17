@@ -31,7 +31,7 @@ export default function Detail(props) {
             <p>
               {" "}
               Temperaments:{" "}
-              {!detailDog[0].createdInDb
+              {!detailDog[0].createIndb
                 ? detailDog[0].temperament + " "
                 : detailDog[0].temperaments.map((el) => el.name + " ")}
             </p>
@@ -40,7 +40,7 @@ export default function Detail(props) {
             <p>
               {" "}
               Life span:{" "}
-              {detailDog[0].createdDb
+              {detailDog[0].createIndb
                 ? detailDog[0].life_span + "years"
                 : detailDog[0].life_span}{" "}
             </p>

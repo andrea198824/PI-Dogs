@@ -40,7 +40,7 @@ export default function Home() {
 
     useEffect(() => {
         dispatch(getTemperaments());
-      }, [dispatch]);
+    }, [dispatch]);
 
     function handleClick(e) {
         e.preventDefault();
@@ -79,26 +79,37 @@ export default function Home() {
                 Volver a cargar todos los perritos
             </button>
             <div>
+                <SearchBar />
                 <select>
                     <option value='asc'>Ascendente</option>
                     <option value='desc'>Descendente</option>
                 </select>
-                <select onChange={e => handleFilterCreated(e)}>
+                <select onClick={(e) => handleFilterCreated(e)}
+                >
                     <option value='All'>Todos</option>
-                    <option value='created'>Creados</option>
-                    <option value='api'>Existentes</option>
+                    <option value='Created'>Creado por ti!</option>
+                    <option value='Source'>Source</option>
+
                 </select>
                 <select
                     onClick={(e) => handleOrderByName(e)}
                 >
-                    <option value='Order by Name'>Order by Name</option>
-                    <option value='Asc'>From A to Z</option>
-                    <option value='Desc'>From Z to A</option>
+                    <option value='Order by Name'>Ordenar por nombre</option>
+                    <option value='Asc'> A - Z</option>
+                    <option value='Desc'>Z - A</option>
                 </select>
                 <select onClick={(e) => handleFilterByTemp(e)}>
-                    <option value=''>Filter by Temperament</option>
+                    <option value=''>Filtrar por temperamento</option>
                     {allTemp.map((temp) => (
-                    <option key={temp.id} value={temp.name}>{temp.name}</option>))}
+                        <option key={temp.id} value={temp.name}>{temp.name}</option>))}
+                </select>
+                <select
+
+                    onClick={(e) => handleOrderByWeight(e)}
+                >
+                    <option value='Order by Weight'>Ordenar por peso</option>
+                    <option value='Weight 1'>Pequeño</option>
+                    <option value='Weight 2'>Grande</option>
                 </select>
 
 
@@ -109,23 +120,23 @@ export default function Home() {
                 />
 
                 {
-                            currentDogs.map((c) => {
-                                return (
-                                    <React.Fragment>
+                    currentDogs.map((c) => {
+                        return (
+                            <React.Fragment>
 
-                                        <div className='main'>
-                                            <div>
-                                                <Link to={'/home/' + c.id}>
-                                                    <div className='content-icon'>
-                                                        <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} key={c.id} />
-                                                    </div>
-                                                </Link>
+                                <div className='main'>
+                                    <div>
+                                        <Link to={'/home/' + c.id}>
+                                            <div className='content-icon'>
+                                                <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} key={c.id} />
                                             </div>
-                                        </div>
-                                    </React.Fragment>
-                                )
-                            })
-                        }
+                                        </Link>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        )
+                    })
+                }
 
             </div>
 

@@ -36,23 +36,29 @@ export function rootReducer(state = initialState, action) {
                 ...state,
             };
         case "FILTER_DOGS_CREATED": //si el valor de mi acción es created, traigo todos aquellos creados en la DB
-            const dogsFiltered =
-                action.payload === "Created"
-                    ? state.allDogs.filter((dog) => dog.createdInDb) //primero siempre filtro el arreglo que tiene todo
-                    : state.allDogs.filter((dog) => !dog.createdInDb);
+            const AllDogs = state.allDogs
+            const createdFilter = action.payload === 'All' ? AllDogs :
+                action.payload === 'Created' ? AllDogs.filter(el => el.createIndb === true) :
+                AllDogs.filter(el => !el.createIndb)
             return {
-                //retorno el estado, y si mi acción vale All traigo los de la api y los filtrados
                 ...state,
-                dogs: action.payload === "All" ? state.allDogs : dogsFiltered, //si tiene todo devolveme todo y si no devolvéme todos los dogs filtrados
-            };
+                dogs: createdFilter
+            }
+        /*const createdOrNot = action.payload === 'Created' ? state.allDogs?.filter(d => d.createdInDb === true) : state.allDogs?.filter(d => !d.createdInDb);
+            return {
+                ...state,
+                dogs: action.payload === 'All' ? state.allDogs : createdOrNot
+            };*/
+
         case "FILTER_BY_TEMP":
             const allDogs = state.allDogs;
-            const filteredDogs = allDogs.filter(
+
+            const filteredTemp = allDogs.filter(
                 (el) => el.temperament?.includes(action.payload) // action.payload es el temperamento que seleccioné en el filtro de temperamentos que está en el state temperaments y lo que me devuelve es un array de strings con los temperamentos.
             );
             return {
                 ...state,
-                dogs: filteredDogs,
+                dogs: filteredTemp,
             };
         /*el valor del select es lo que va a ser el (e.target.value) y va a llegar a la acción por payload
               includes xque cada perro puede tener varios temperamentos

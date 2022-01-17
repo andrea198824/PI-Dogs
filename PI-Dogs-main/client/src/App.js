@@ -4,6 +4,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import Home from './components/Home';
 import CardDetails from './components/CardDetails';
+import CreateDog from './components/CreateDog';
+
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
       <Route  path='/home/:id' element = {<CardDetails/>}/>
       </Routes>
     </div>
+    <div >
+      <Routes>
+      <Route  path='/dog' element = {<CreateDog/>}/>
+      </Routes>
+    </div>
+
     </BrowserRouter>
   );
 }
