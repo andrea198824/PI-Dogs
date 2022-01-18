@@ -1,5 +1,3 @@
-
-import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import Home from './components/Home';
@@ -10,7 +8,7 @@ import CreateDog from './components/CreateDog';
 function App() {
   return (
     <BrowserRouter>
-    <div className="App">
+    <div >
       <Routes>
       <Route  path='/' element = {<LandingPage/>}/>
       </Routes>

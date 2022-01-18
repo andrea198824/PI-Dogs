@@ -1,3 +1,4 @@
+import './Home.css';
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,18 +74,16 @@ export default function Home() {
     }
     return (
         <div className='Home'>
-            <Link to='/dog'>Añadir raza</Link>
-            <h1>Biblioteca perruna</h1>
-            <button onClick={e => { handleClick(e) }}>
-                Volver a cargar todos los perritos
-            </button>
+            <div className='center'>
+                <h1>Biblioteca perruna</h1>
+            </div>
+
             <div>
-                <SearchBar />
-                <select>
-                    <option value='asc'>Ascendente</option>
-                    <option value='desc'>Descendente</option>
-                </select>
-                <select onClick={(e) => handleFilterCreated(e)}
+                <div className='center'>
+                    <SearchBar />
+                </div>
+                <div className='center'>
+                    <select onClick={(e) => handleFilterCreated(e)}
                 >
                     <option value='All'>Todos</option>
                     <option value='Created'>Creado por ti!</option>
@@ -111,32 +110,41 @@ export default function Home() {
                     <option value='Weight 1'>Pequeño</option>
                     <option value='Weight 2'>Grande</option>
                 </select>
-
-
+                </div>
+                <div className='center'>
+                    <Link to='/dog'>Añadir raza</Link>
+                </div>
+                <div className='center'>
+                <button onClick={e => { handleClick(e) }}>
+                    Volver a cargar todos los perritos
+                </button>
+                </div>
                 <Paginado
                     dogsPerPage={dogsPerPage}
                     allDogs={allDogs.length}
                     paginado={paginado}
                 />
+                <div className='main'>
+                    {
+                        currentDogs.map((c) => {
+                            return (
+                                <React.Fragment>
 
-                {
-                    currentDogs.map((c) => {
-                        return (
-                            <React.Fragment>
-
-                                <div className='main'>
                                     <div>
-                                        <Link to={'/home/' + c.id}>
-                                            <div className='content-icon'>
-                                                <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} key={c.id} />
-                                            </div>
-                                        </Link>
+                                        <div >
+                                            <Link to={'/home/' + c.id}>
+                                                <div className='content-icon'>
+                                                    <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} key={c.id} />
+                                                </div>
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
+                                
                             </React.Fragment>
-                        )
+                )
                     })
                 }
+                </div>
 
             </div>
 

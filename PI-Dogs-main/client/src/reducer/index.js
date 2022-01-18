@@ -21,7 +21,7 @@ export function rootReducer(state = initialState, action) {
                 ...state,
                 detail: action.payload, // a detail que es el estado que está creado arriba, pasale action.payload
             };
-        case "GET_DOGS_BY_NAME":
+        case "SEARCH_DOGS":
             return {
                 ...state,
                 dogs: action.payload, //lo renderizo en el array dogs, este es el filtrado de buscar por nombre que hice en el back

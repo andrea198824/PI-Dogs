@@ -9,7 +9,7 @@
   position: relative;
 }
 
-.searchContainer {
+.center {
   margin-top: 10px;
   position: relative;
   display: flex;
@@ -182,9 +182,9 @@
   transition: 0.8s;
 }
 
-.mainContainer {
+.main {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 5px;
   margin-top: 10px;
   margin-left: 2%;

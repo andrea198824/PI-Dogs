@@ -4,7 +4,7 @@ import './Card.css';
 
 export default function Card({name, image, temperament, weight}){
     return (
-        <div >                
+        <div className="caja">                
             <p >{name}</p>
             <img
             src={image}
@@ -12,7 +12,9 @@ export default function Card({name, image, temperament, weight}){
             width='240px'
             height='180px'
           />
+            <div className="temp">
             <h6>Temperamento: {temperament}</h6>
+            </div>
             <h6>{weight}(kg)</h6>
             <br/>
 

@@ -20,16 +20,31 @@ export function dogDetail(id) {
   };
 }
 
-export function getDogsByName(name) {
+export function getDogByName(name) {
   //acá traigo del back-end los perros que coincidan con el nombre pasado por query
   return async function (dispatch) {
-    var json = await axios.get(`http://localhost:3001/dogs?name=${name}`); //mi ruta del back mas lo que el usuario le pase como nombre en la barra de búsqueda
-    return dispatch({
-      type: "GET_DOGS_NAME",
-      payload: json.data,
-    });
+    try {
+      await axios
+        .get("http://localhost:3001/dogs/?name=" + name)
+        .then((dogs) => {
+          dispatch({
+            type: 'SEARCH_DOGS',
+            payload: dogs.data,
+          });
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
+//   return async function (dispatch) {
+//     var json = await axios.get(`http://localhost:3001/dogs?name=${name}`); //mi ruta del back mas lo que el usuario le pase como nombre en la barra de búsqueda
+//     return dispatch({
+//       type: "GET_DOGS_NAME",
+//       payload: json.data,
+//     });
+//   };
+// }
 
 export function getTemperaments() {
   return async function (dispatch) {
@@ -64,7 +79,7 @@ export function filterDogsCreated(payload) {
 
 export function filterDogTemp(payload) {
   //lo que llega en payload es lo que le mando desde el componente, el value del select
-  return {
+    return {
     type: "FILTER_BY_TEMP",
     payload,
   };

@@ -1,11 +1,11 @@
-.box {
+.caja {
     width: 290px;
     height: 370px;
     border-radius: 8px;
     border: #949193 1px solid;
     border-width: thin;
     background-color: #fdf6fc73;
-    color: #deb887;
+    color: #030308;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     margin: 20px;
@@ -13,37 +13,8 @@
     transition: all 0.25s;
     text-decoration: none;
   }
-  
-  .box:hover {
-    box-shadow: 0 0 20px rgba(44, 11, 34, 0.404), 0 0 20px rgba(44, 11, 34, 0.404),
-      0 0 20px rgba(44, 11, 34, 0.404);
-    color: #220f00;
-    transition-delay: 0.2s;
-    transition: 0.8s;
-    backdrop-filter: 1px;
-    border: #949193 1px solid;
-    position: relative;
-    top: -20px;
-  }
-  
-  .breed {
-    text-decoration: "none";
-    font-size: 16px;
-    color: #b11a21;
-    font-weight: bolder;
-    font-family: "Lato", Arial, Helvetica, sans-serif;
-    text-shadow: 6px 6px 4px rgba(44, 11, 34, 0.473);
-    margin-top: 7px;
-  }
-  
-  .weight {
-    font-size: 14px;
-    color: #000000;
-    text-decoration: "none";
-    font-family: "Lato", Arial, Helvetica, sans-serif;
-  }
-  
-  .temps {
+      
+  .temp {
     font-size: 14px;
     color: #000000;
     text-decoration: "none";
@@ -52,19 +23,3 @@
     padding-right: 10px;
   }
   
-  .image {
-    width: 240px;
-    height: 180px;
-    border-radius: 7%;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .text {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-  
-  @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
