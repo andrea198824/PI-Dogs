@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../actions";
+import './CreateDog.css';
 
 function validate(input) {
     let errors = {};
@@ -117,7 +118,7 @@ export default function CreateDog() {
         };
         e.preventDefault();
         dispatch(postDog(addDog));
-        alert("Your dog was successfully created!");
+        alert("Tu perrito fue creado correctamente!");
         setInput({
             name: "",
             min_height: "",
@@ -129,17 +130,17 @@ export default function CreateDog() {
             temperament: [],
         });
         setTemps([]);
-        history.push("/home");
+        history("/home");
     }
     return (
-        <div>
-            <div>
-                <h1>Create Your Dog!</h1>
-                <form
+        <div className="body">
+            <div className="create">
+                <h1>Crea tu propio perrito!!</h1>
+                <form className="boxo"
                     id='DoNotSubmit'
                     onSubmit={(e) => handleSubmit(e)}
                 >
-                    <div>
+                    <div className='cyd'>
                         <label>Nombre: </label>
                         <input
                             key='name'
@@ -153,8 +154,8 @@ export default function CreateDog() {
                             <p>{errors.name}</p>
                         )}
                     </div>
-                    <div>
-                        <label>Height: </label>
+                    <div className='cyd'>
+                        <label>Altura promedio: </label>
                         <input
                             onChange={(e) => handleChange(e)}
                             name='min_height'
@@ -176,8 +177,8 @@ export default function CreateDog() {
                             <p>{errors.max_height}</p>
                         )}
                     </div>
-                    <div>
-                        <label>Weight: </label>
+                    <div className='cyd'>
+                        <label>Peso promedio: </label>
                         <input
                             onChange={(e) => handleChange(e)}
                             name='min_weight'
@@ -199,9 +200,9 @@ export default function CreateDog() {
                             <p>{errors.max_weight}</p>
                         )}
                     </div>
-                    <div>
+                    <div className='cyd'>
                         {" "}
-                        <label>Life Span: </label>
+                        <label>Años de vida: </label>
                         <input
                             placeholder='Life Span'
                             type='text'
@@ -213,8 +214,8 @@ export default function CreateDog() {
                             <p>{errors.life_span}</p>
                         )}
                     </div>
-                    <div>
-                        <label>Image: </label>
+                    <div className='cyd'>
+                        <label>Imagen: </label>
                         <input
                             key='image'
                             placeholder='Insert URL image'
@@ -225,9 +226,9 @@ export default function CreateDog() {
                         />
                         {errors.image && <p>{errors.image}</p>}
                     </div>
-                    <div>
+                    <div className='cyd'>
                         {" "}
-                        <label>Choose Temperaments: </label>
+                        <label>Escoger temperamento: </label>
                         <select
                             name='temperament'
                             onChange={(e) => handleSelect(e)}
@@ -260,18 +261,19 @@ export default function CreateDog() {
                             );
                         })}
                     </div>
-                    <div>
+                    <div className="center">
                         <button type='submit' name='submit'>
-                            Create Dog
+                            ¡Creat perrito!
                         </button>
                     </div>
                 </form>
-            </div>
-            <div>
+                <div>
                 <Link to='/home'>
-                    <button >Back </button>
+                    <button >Regresar</button>
                 </Link>
             </div>
+            </div>
+
         </div>
     );
 }

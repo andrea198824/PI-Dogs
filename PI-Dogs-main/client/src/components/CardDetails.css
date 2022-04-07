@@ -1,0 +1,51 @@
+.homecard{
+    background-image: url(../image/7.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+  }
+
+.contenedor{
+    position: fixed;
+    width: 800px;
+    height: 530px;
+    margin-top: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-left: 400px;
+    text-decoration: none;
+    outline: none;
+    border-radius: 15px;
+    background-color: #fdf6fc73;
+    backdrop-filter: 1px;
+    border: #949193 1px solid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.titulo {
+    color: rgb(17, 3, 3);
+    flex-direction: column;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    text-shadow: 6px 6px 4px rgba(44, 11, 34, 0.473);
+    font-size: 40px;
+    text-align: center;
+    position: relative;
+  }
+  .imagen {
+    border-radius: 5%;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    max-width: 350px;
+    max-height: 350px;
+  }
+  .nuevo {
+      background-color: yellow ;
+  }

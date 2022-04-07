@@ -1,3 +1,22 @@
 .lpage {
-    background-attachment: url(../image/1.jpg);
+    background-image: url(../image/1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 99vh;
+    width: 99vw;
+    position: absolute;
+    top: 0;
+    padding-top: 50px;
+
 }
+
+:root{
+    margin: 0;
+}
+
+.letra{
+    text-align: center;
+    margin-top: 90px;
+}
+

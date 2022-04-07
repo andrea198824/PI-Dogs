@@ -46,8 +46,8 @@ const getDbInfo = async () => {
   });
 };
 
-const getAllDogs = async () => {
-  const apiInfo = await getApiInfo();
+const getAllDogs = async () => { // Aquí está la información de la api + 
+  const apiInfo = await getApiInfo();//la información de la base de datos
   const dbInfo = await getDbInfo();
   const totalInfo = apiInfo.concat(dbInfo);
   return totalInfo;
@@ -57,6 +57,8 @@ const getAllDogs = async () => {
 //get dogs y get dogs búsqueda por name los hago en la misma ruta porque
 // me trae la misma info (según se ingresa un name o no)
 //el query se pasa por URL
+
+
 
 router.get("/dogs", async (req, res, next) => {
   try {
@@ -80,6 +82,7 @@ router.get("/dogs", async (req, res, next) => {
     next(error);
   }
 });
+
 router.get("/temperament", async (req, res) => {
   const temperamentApi = await axios.get(
     `https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`
@@ -99,30 +102,24 @@ router.get("/temperament", async (req, res) => {
   const allTemperaments = await Temperament.findAll();
   res.send(allTemperaments);
 });
-
-router.get("/dogs/:id", async function (req, res, next) {
-  try {
-    const id = req.params.id;
-    const dogTotal = await getAllDogs();
-    if (id) {
-      let dogId = await dogTotal.filter((el) => el.id == id); //dentro de todos los dogs
-      //filtra el id que te estoy pasando
-      dogId.length //si no encuentra nada entra en la res.status
-        ? res.status(200).send(dogId)
-        : res.status(404).send({ info: "Dog not found" });
-    }
-  } catch (error) {
-    next(error);
-  }
+router.get('/:id', (req,res) => {
+  const { id } = req.params;
+  allDogs()
+  .then(dogs => {
+      if(id) {
+          let raza = dogs.filter(d => d.id == id);
+          raza.length
+          ? res.status(200).json(raza)
+          : res.status(404).send('raza no existente');
+      };
+  });
 });
-
 router.post("/dog", async (req, res, next) => {
   try {
     const { name, height, weight, life_span, image, createdInDb, temperament } =
-      req.body; //me traigo del body todo lo que necesito
+      req.body; 
     const newDog = await Dog.create({
-      //creo el dog con el modelo Dog y le paso lo mismo excepto el temp porque lo tengo
-      //que encontrar en un modelo que ya tengo
+
       name,
       height,
       weight,
@@ -134,11 +131,10 @@ router.post("/dog", async (req, res, next) => {
       //dentro de mi modelo encontrá todos los temps que coincidan con lo que le paso por body
       where: { name: temperament }, //name es igual al temperament que le llega por body
     });
-    await newDog.addTemperament(temperamentDb); //al dog creado agregále el temperamento
-    //encontrado en la Bd que le llegó por body
+    await newDog.addTemperament(temperamentDb); 
     res.status(201).send({ info: "Dog created successfully!" });
   } catch (error) {
-    next(error); // si hay un error, lo pasa a la función next.
+    next(error);
   }
 });
 

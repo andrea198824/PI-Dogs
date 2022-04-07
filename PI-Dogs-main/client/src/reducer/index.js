@@ -4,7 +4,8 @@ const initialState = {
     orderDogs: [], //de esta manera no tengo que volver a cargar a todos los perros
     weightDogs: [],
     temperaments: [], //declaro un nuevo estado temperament donde guardo los temperamentos
-    detail: [], //creo un nuevo estado detail para guardar la info del detalle del perro
+    detail: [],
+    weight: [] //creo un nuevo estado detail para guardar la info del detalle del perro
 };
 
 
@@ -26,6 +27,14 @@ export function rootReducer(state = initialState, action) {
                 ...state,
                 dogs: action.payload, //lo renderizo en el array dogs, este es el filtrado de buscar por nombre que hice en el back
             };
+
+        case "SEARCH_WEIGHT":
+            return {
+                ...state,
+                weight: action.payload, //lo renderizo en el array dogs, este es el filtrado de buscar por nombre que hice en el back
+            };
+
+
         case "GET_TEMPERAMENTS":
             return {
                 ...state,
@@ -39,7 +48,7 @@ export function rootReducer(state = initialState, action) {
             const AllDogs = state.allDogs
             const createdFilter = action.payload === 'All' ? AllDogs :
                 action.payload === 'Created' ? AllDogs.filter(el => el.createIndb === true) :
-                AllDogs.filter(el => !el.createIndb)
+                    AllDogs.filter(el => !el.createIndb)
             return {
                 ...state,
                 dogs: createdFilter

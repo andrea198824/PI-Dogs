@@ -20,6 +20,7 @@ import SearchBar from "./SearchBar";
 export default function Home() {
     const dispatch = useDispatch()
     const allDogs = useSelector((state) => state.dogs)
+
     const [order, setOrder] = useState('')
     const [orderr, setOrderr] = useState("");//cambiar nombres
     const [currentPage, setCurrentPage] = useState(1)
@@ -73,7 +74,7 @@ export default function Home() {
         setOrderr(`Ordenado ${e.target.value}`); //ese estado local empieza vacío y lo seteo de cierta manera para que me haga el renderizado
     }
     return (
-        <div className='Home'>
+        <div className='home'>
             <div className='center'>
                 <h1>Biblioteca perruna</h1>
             </div>
@@ -84,40 +85,40 @@ export default function Home() {
                 </div>
                 <div className='center'>
                     <select onClick={(e) => handleFilterCreated(e)}
-                >
-                    <option value='All'>Todos</option>
-                    <option value='Created'>Creado por ti!</option>
-                    <option value='Source'>Source</option>
+                    >
+                        <option value='All'>Todos</option>
+                        <option value='Created'>Creado por ti!</option>
+                        <option value='Source'>Base de datos</option>
 
-                </select>
-                <select
-                    onClick={(e) => handleOrderByName(e)}
-                >
-                    <option value='Order by Name'>Ordenar por nombre</option>
-                    <option value='Asc'> A - Z</option>
-                    <option value='Desc'>Z - A</option>
-                </select>
-                <select onClick={(e) => handleFilterByTemp(e)}>
-                    <option value=''>Filtrar por temperamento</option>
-                    {allTemp.map((temp) => (
-                        <option key={temp.id} value={temp.name}>{temp.name}</option>))}
-                </select>
-                <select
+                    </select>
+                    <select
+                        onClick={(e) => handleOrderByName(e)}
+                    >
+                        <option value='Order by Name'>Ordenar por nombre</option>
+                        <option value='Asc'> A - Z</option>
+                        <option value='Desc'>Z - A</option>
+                    </select>
+                    <select onClick={(e) => handleFilterByTemp(e)}>
+                        <option value=''>Filtrar por temperamento</option>
+                        {allTemp.map((temp) => (
+                            <option key={temp.id} value={temp.name}>{temp.name}</option>))}
+                    </select>
+                    <select
 
-                    onClick={(e) => handleOrderByWeight(e)}
-                >
-                    <option value='Order by Weight'>Ordenar por peso</option>
-                    <option value='Weight 1'>Pequeño</option>
-                    <option value='Weight 2'>Grande</option>
-                </select>
+                        onClick={(e) => handleOrderByWeight(e)}
+                    >
+                        <option value='Order by Weight'>Ordenar por peso</option>
+                        <option value='Weight 1'>Pequeño</option>
+                        <option value='Weight 2'>Grande</option>
+                    </select>
                 </div>
                 <div className='center'>
                     <Link to='/dog'>Añadir raza</Link>
                 </div>
                 <div className='center'>
-                <button onClick={e => { handleClick(e) }}>
-                    Volver a cargar todos los perritos
-                </button>
+                    <button onClick={e => { handleClick(e) }}>
+                        Volver a cargar todos los perritos
+                    </button>
                 </div>
                 <Paginado
                     dogsPerPage={dogsPerPage}
@@ -132,18 +133,23 @@ export default function Home() {
 
                                     <div>
                                         <div >
-                                            <Link to={'/home/' + c.id}>
-                                                <div className='content-icon'>
-                                                    <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} key={c.id} />
+                                            <Link className='tit' to={'/home/' + c.id}>
+                                                <div  >
+                                                    <Card name={c.name} image={c.image} weight={c.weight}
+                                                        temperament={
+                                                            c.temperament
+                                                                ? c.temperament
+                                                                : c.temperaments &&
+                                                                c.temperaments.map((temp) => temp.name.concat(" "))} key={c.id} />
                                                 </div>
                                             </Link>
                                         </div>
                                     </div>
-                                
-                            </React.Fragment>
-                )
-                    })
-                }
+
+                                </React.Fragment>
+                            )
+                        })
+                    }
                 </div>
 
             </div>
