@@ -10,7 +10,7 @@ export function getDogs() {
   };
 }
 
-export function dogDetail(id) {
+export function getDetail(id) {
   return async function (dispatch) {
     var json = await axios.get(`http://localhost:3001/dogs/${id}`); //aca sucede toda la conexion entre el front y el back
     return dispatch({

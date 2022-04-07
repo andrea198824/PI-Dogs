@@ -75,14 +75,18 @@ export default function Home() {
     }
     return (
         <div className='home'>
-            <div className='center'>
-                <h1>Biblioteca perruna</h1>
-            </div>
-
-            <div>
+            
+            <div className='navidad'>
+                <div className='izquierda'>
+                    <h1>Biblioteca perruna</h1>
+                </div>
                 <div className='center'>
                     <SearchBar />
                 </div>
+            </div>
+
+            <div>
+
                 <div className='center'>
                     <select onClick={(e) => handleFilterCreated(e)}
                     >
