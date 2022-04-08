@@ -78,19 +78,20 @@ export default function Home() {
             
             <div className='navidad'>
                 <div className='izquierda'>
-                    <h1>Biblioteca perruna</h1>
+                    <h1 className='texto'>Biblioteca Perruna</h1>
                 </div>
-                <div className='center'>
-                    <SearchBar />
-                </div>
+
             </div>
-
             <div>
-
-                <div className='center'>
+            <div className='filtros'>
+                <div>
+                    <h2>Filtros de Búsqueda</h2>
+                </div>
+                <div >
+                <SearchBar />
                     <select onClick={(e) => handleFilterCreated(e)}
                     >
-                        <option value='All'>Todos</option>
+                        <option value='All'>Filtrar por base de datos</option>
                         <option value='Created'>Creado por ti!</option>
                         <option value='Source'>Base de datos</option>
 
@@ -115,6 +116,10 @@ export default function Home() {
                         <option value='Weight 1'>Pequeño</option>
                         <option value='Weight 2'>Grande</option>
                     </select>
+                    
+                    
+                
+                </div>
                 </div>
                 <div className='center'>
                     <Link to='/dog'>Añadir raza</Link>
